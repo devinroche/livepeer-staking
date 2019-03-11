@@ -27,9 +27,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.web3)
     const { loading, user: { address, bondedAmount, delegateAddress, startRound, status }} = this.state
-    console.log("LOADING: ", loading, this.state)
     if (loading)
       return <h1>Loading</h1>
 
