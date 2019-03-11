@@ -3,7 +3,6 @@ import React from 'react'
 import 'isomorphic-unfetch'
 // import { Query } from 'react-apollo'
 import livepeer from './utils/livepeer';
-import {fetchAddress} from './utils/web3';
 import './App.css'
 
 class App extends React.Component {
@@ -22,7 +21,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const user = await livepeer(fetchAddress())
+    const user = await livepeer();
     this.setState({ user, loading: false });
   }
 
