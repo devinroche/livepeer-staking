@@ -25,6 +25,8 @@ class Info extends React.PureComponent {
       user: { address, bondedAmount, delegateAddress, startRound, status }
     } = this.props;
 
+    console.log(this.formatRewards(shares));
+
     return (
       <div className="App">
         <div className="App-header">
