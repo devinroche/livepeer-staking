@@ -6,12 +6,16 @@ import livepeer from '../utils/livepeer';
 import { setAddress, getAddress } from '../utils/localStore';
 import './App.css';
 import fetchAddress from '../utils/web3';
+import Info from './Info';
 
 const query = gql`
   query User($address: String!) {
     delegator(first: 1, id: $address) {
       shares {
         rewardTokens
+        round {
+          timestamp
+        }
       }
     }
   }
@@ -50,24 +54,13 @@ class App extends React.Component {
 
   roundNum = num => Math.round(100 * num) / 100;
 
-  getSharesEarned = shares => {
-    // let foo = shares.reduce(function(prev, curr) {
-    //   return prev + curr.rewardTokens;
-    // }, 0)
-    return shares.reduce((prev, curr) => {
-      return prev + curr.rewardTokens * 0.000000000000000001;
-    }, 0);
-    // console.log(bar, this.convertToLPT(foo))
-    // return bar;
-  };
-
   render() {
     const { load } = this.state;
 
     if (load) return <h1>Loading</h1>;
 
     const {
-      user: { address, bondedAmount, delegateAddress, startRound, status }
+      user: { address }
     } = this.state;
 
     return (
@@ -81,20 +74,9 @@ class App extends React.Component {
             const {
               delegator: { shares }
             } = data;
-            const tmp = this.getSharesEarned(shares);
+            const { user } = this.state;
 
-            return (
-              <div className="App">
-                <div className="App-header">
-                  <h2>Eth Address: {address}</h2>
-                  <h3>LPT Earned: {this.roundNum(tmp)}</h3>
-                  <p>LPT: {this.roundNum(this.convertToLPT(bondedAmount))}</p>
-                  <p>Bonded To: {delegateAddress}</p>
-                  <p>Start Round: {startRound}</p>
-                  <p>Current Status: {status}</p>
-                </div>
-              </div>
-            );
+            return <Info user={user} shares={shares} />;
           }
         }}
       </Query>

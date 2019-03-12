@@ -6,7 +6,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
-import App from './components/App';
+import App from './components/index';
 
 const httpLink = createHttpLink({
   uri: 'https://api.thegraph.com/subgraphs/name/adamsoffer/livepeer-canary'
