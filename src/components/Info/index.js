@@ -15,8 +15,11 @@ class Info extends React.PureComponent {
       'https://api.nomics.com/v1/prices?key=9cdcefd0aa99cf5067a3b18bf76dbfcb'
     );
     // eslint-disable-next-line
+    console.log(data);
+    // eslint-disable-next-line
     const price = data.filter(curr => curr.currency === 'LPT')[0].price;
-    this.setState({ price });
+    if (!price) this.setState({ price: 6.5 });
+    else this.setState({ price });
   }
 
   convertToLPT = val => val * 0.000000000000000001;
