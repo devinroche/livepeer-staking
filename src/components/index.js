@@ -7,6 +7,7 @@ import { setAddress, getAddress } from '../utils/localStore';
 import './App.css';
 import fetchAddress from '../utils/web3';
 import Info from './Info';
+import Header from './Header';
 
 const query = gql`
   query User($address: String!) {
@@ -64,22 +65,25 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <Query query={query} variables={{ address }}>
-        {({ loading, error, data }) => {
-          if (error) return <h1>error fetching data</h1>;
+      <div className="App">
+        <Header />
+        <Query query={query} variables={{ address }}>
+          {({ loading, error, data }) => {
+            if (error) return <h1>error fetching data</h1>;
 
-          if (loading) return <h1>Loading</h1>;
+            if (loading) return <h1>Loading</h1>;
 
-          if (data) {
-            const {
-              delegator: { shares }
-            } = data;
-            const { user } = this.state;
+            if (data) {
+              const {
+                delegator: { shares }
+              } = data;
+              const { user } = this.state;
 
-            return <Info user={user} shares={shares} />;
-          }
-        }}
-      </Query>
+              return <Info user={user} shares={shares} />;
+            }
+          }}
+        </Query>
+      </div>
     );
   }
 }

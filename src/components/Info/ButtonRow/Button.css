@@ -1,0 +1,26 @@
+.btn {
+  border: none;
+  color: #283845;
+  padding: 15px 32px;
+  background-color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.active {
+  border: none;
+  color: #00eb88;
+  padding: 15px 32px;
+  background-color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.row {
+  float: right;
+}
