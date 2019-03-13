@@ -4,6 +4,8 @@ import Chart from './Chart';
 import ButtonRow from './ButtonRow';
 import './Info.css';
 
+const apiKey =
+  'da3b33cde8683ed97f4bc717156abd73c24137f0bf31a785cf34ff4dbff77d3c';
 class Info extends React.PureComponent {
   state = {
     price: 0,
@@ -11,15 +13,12 @@ class Info extends React.PureComponent {
   };
 
   async componentDidMount() {
-    const { data } = await axios.get(
-      'https://api.nomics.com/v1/prices?key=9cdcefd0aa99cf5067a3b18bf76dbfcb'
+    const {
+      data: { USD }
+    } = await axios.get(
+      `https://min-api.cryptocompare.com/data/dayAvg?fsym=LPT&tsym=USD&${apiKey}`
     );
-    // eslint-disable-next-line
-    console.log(data);
-    // eslint-disable-next-line
-    const price = data.filter(curr => curr.currency === 'LPT')[0].price;
-    if (!price) this.setState({ price: 6.5 });
-    else this.setState({ price });
+    this.setState({ price: USD });
   }
 
   convertToLPT = val => val * 0.000000000000000001;
