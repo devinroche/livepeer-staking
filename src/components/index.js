@@ -22,7 +22,7 @@ class App extends React.Component {
         address = await fetchAddress();
         setAddress(address);
       }
-      if (address.length === 0) {
+      if (address.length === 0 || address === 'false' || address === false) {
         // eslint-disable-next-line
         address = prompt(
           'Please Enter Metamask Wallet (or wallet used for staking)'
