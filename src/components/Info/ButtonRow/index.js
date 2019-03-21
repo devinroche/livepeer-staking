@@ -6,13 +6,6 @@ const ButtonRow = ({ buttonClick, active }) => {
     <div className="row">
       <button
         type="button"
-        className={active === 1 ? 'active' : 'btn'}
-        onClick={() => buttonClick(1)}
-      >
-        1D
-      </button>
-      <button
-        type="button"
         className={active === 2 ? 'active' : 'btn'}
         onClick={() => buttonClick(2)}
       >

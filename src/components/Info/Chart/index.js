@@ -1,11 +1,16 @@
 import React from 'react';
-import { VictoryTheme, VictoryChart, VictoryLine } from 'victory';
+import {
+  VictoryTheme,
+  VictoryChart,
+  VictoryLine,
+  VictoryContainer
+} from 'victory';
 
 const Chart = ({ data }) => (
   <div>
     <VictoryChart
       width={800}
-      style={{ width: '100%' }}
+      containerComponent={<VictoryContainer title="USD Gains" />}
       theme={VictoryTheme.material}
     >
       <VictoryLine

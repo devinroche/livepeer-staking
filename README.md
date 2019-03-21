@@ -4,7 +4,8 @@
 
 ## To Do
 
-- [ ] model off titan homepage
+- [x] model off titan homepage
+- [x] show lpt holding
 - [ ] graph of lpt over time (in usd)
-- [ ] show lpt holding
+- [ ] fonts
 - [ ] graph of lpt over time while staking 1 -> 1.1 -> ... 2 LPT
