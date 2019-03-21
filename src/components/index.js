@@ -1,11 +1,10 @@
 import React from 'react';
-import 'isomorphic-unfetch';
 import axios from 'axios';
-import { setAddress, getAddress } from '../utils/localStore';
-import './App.css';
 import fetchAddress from '../utils/web3';
 import Info from './Info';
 import Header from './Header';
+import { setAddress, getAddress } from '../utils/localStore';
+import './App.css';
 
 class App extends React.Component {
   constructor() {
@@ -31,7 +30,10 @@ class App extends React.Component {
         setAddress(address);
       }
 
-      const { data } = await axios.get(`http://localhost:8080/api/${address}`);
+      console.log(process.env);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/${address}`
+      );
       this.setState({ user: data, load: false });
     });
   }
@@ -39,7 +41,7 @@ class App extends React.Component {
   render() {
     const { load } = this.state;
 
-    if (load) return <h1>Loading</h1>;
+    if (load) return <h1>LOADING</h1>;
 
     const { user } = this.state;
     user.shares.reverse();
