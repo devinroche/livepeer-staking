@@ -30,7 +30,6 @@ class App extends React.Component {
         setAddress(address);
       }
 
-      console.log(process.env);
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/${address}`
       );

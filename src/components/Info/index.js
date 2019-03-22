@@ -8,14 +8,17 @@ class Info extends React.PureComponent {
   state = {
     activeBtn: 2,
     data: [],
-    graphData: []
+    graphData: [],
+    lptData: [],
+    rangedLPT: []
   };
 
   async componentDidMount() {
     const {
       user: { shares }
     } = this.props;
-    await this.formatRewards(shares);
+
+    await this.formatLPT(shares);
     this.setRange(this.oneWeek());
   }
 
@@ -30,14 +33,22 @@ class Info extends React.PureComponent {
   oneYear = () => moment().subtract(1, 'year');
 
   setRange = startDate => {
-    const { data } = this.state;
+    const { data, lptData } = this.state;
     const rangedData = data.filter(el =>
       moment(el.x).isBetween(startDate, moment())
     );
-    this.setState({ graphData: rangedData });
+
+    const rangedLPT = lptData.filter(el =>
+      moment(el.x).isBetween(startDate, moment())
+    );
+
+    this.setState({
+      graphData: rangedData,
+      rangedLPT
+    });
   };
 
-  formatRewards = data => {
+  formatLPT = data => {
     const format = data.map(el => {
       return {
         y: el.rewardUSD,
@@ -45,20 +56,43 @@ class Info extends React.PureComponent {
       };
     });
 
-    this.setState({ graphData: format, data: format });
+    const formatLPT = data.map(el => {
+      return {
+        y: el.convertedReward,
+        x: new Date(el.timestamp)
+      };
+    });
+
+    this.setState({
+      graphData: format,
+      data: format,
+      lptData: formatLPT,
+      rangedLPT: formatLPT
+    });
   };
 
-  renderChange = (totalRewardsUSD, totalRewardsLPT) => {
+  renderChange = totalRewardsUSD => {
+    const { graphData, rangedLPT } = this.state;
+    const {
+      user: { totalUSD }
+    } = this.props;
+
+    const sumArr = graphData.reduce((acc, curr) => acc + curr.y, 0);
+    const sumLpt = rangedLPT.reduce((acc, curr) => acc + curr.y, 0);
+
+    const decreaseValue = sumArr + totalUSD - totalUSD;
+    const changeUSDPercent = (decreaseValue / totalUSD) * 100;
+
     return (
       <p className={totalRewardsUSD > 0 ? 'green' : 'red'}>
-        {totalRewardsUSD > 0 ? '+' : '-'}
-        {this.roundNum(totalRewardsUSD, 100)} (
-        {this.roundNum(totalRewardsLPT, 1000)} LPT)
+        {totalRewardsUSD > 0 ? '+' : '-'}${this.roundNum(sumArr, 100)} (
+        {this.roundNum(changeUSDPercent, 100)}%) [{this.roundNum(sumLpt, 100)}{' '}
+        LPT]
       </p>
     );
   };
 
-  buttonClick = btn => {
+  calculateRange = btn => {
     let range;
     switch (btn) {
       case 2:
@@ -74,6 +108,11 @@ class Info extends React.PureComponent {
         range = this.oneYear();
         break;
     }
+    return range;
+  };
+
+  buttonClick = btn => {
+    const range = this.calculateRange(btn);
     this.setRange(range);
     this.setState({ activeBtn: btn });
   };
@@ -93,7 +132,7 @@ class Info extends React.PureComponent {
         <h2>
           ${usd} ({lpt} LPT)
         </h2>
-        {this.renderChange(totalRewardsUSD, totalRewardsLPT)}
+        {this.renderChange(totalRewardsUSD, totalRewardsLPT, activeBtn)}
         <ButtonRow buttonClick={this.buttonClick} active={activeBtn} />
         <Chart data={graphData} />
       </div>
